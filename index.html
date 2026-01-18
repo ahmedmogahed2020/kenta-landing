@@ -704,19 +704,28 @@
   </script>
 
 <script>
-(function(){
+(function () {
   function sendHeight(){
     var h = Math.max(
       document.body.scrollHeight,
       document.documentElement.scrollHeight
     );
-    parent.postMessage({ type:"EO_IFRAME_HEIGHT", height: h }, "*");
+    parent.postMessage({ type: "EO_IFRAME_HEIGHT", height: h }, "*");
   }
+
   window.addEventListener("load", sendHeight);
   window.addEventListener("resize", sendHeight);
-  setInterval(sendHeight, 700); // احتياطي لو في صور بتتحمل بعدين
+
+  // لو صور بتتحمل بعدين أو فونتات… نبعته كذا مرة
+  var tries = 0;
+  var t = setInterval(function(){
+    sendHeight();
+    tries++;
+    if (tries > 20) clearInterval(t);
+  }, 400);
 })();
 </script>
+
 
   
 </body>
