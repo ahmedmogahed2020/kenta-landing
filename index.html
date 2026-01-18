@@ -702,5 +702,22 @@
     lightbox.addEventListener('click', (e) => { if(e.target === lightbox) closeLb(); });
     document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeLb(); });
   </script>
+
+<script>
+(function(){
+  function sendHeight(){
+    var h = Math.max(
+      document.body.scrollHeight,
+      document.documentElement.scrollHeight
+    );
+    parent.postMessage({ type:"EO_IFRAME_HEIGHT", height: h }, "*");
+  }
+  window.addEventListener("load", sendHeight);
+  window.addEventListener("resize", sendHeight);
+  setInterval(sendHeight, 700); // احتياطي لو في صور بتتحمل بعدين
+})();
+</script>
+
+  
 </body>
 </html>
